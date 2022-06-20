@@ -54,7 +54,7 @@ func (h *UserHandler) createUserHandler(w http.ResponseWriter, r *http.Request) 
 		`INSERT INTO users(
 		username, email, pass, age_user, division, created_at, updated_at)
 		values ($1, $2, $3, $4, $5, $6, $7)
-		Returning*;`
+		Returning id ;`
 
 	err := database.Db.QueryRow(sqlInject,
 		userss.Username,
@@ -64,14 +64,7 @@ func (h *UserHandler) createUserHandler(w http.ResponseWriter, r *http.Request) 
 		userss.Division,
 		userss.Created_at,
 		userss.Updated_at,
-	).Scan(&userss.Id,
-		&userss.Username,
-		&userss.Email,
-		&userss.Password,
-		&userss.Age_user,
-		&userss.Division,
-		&userss.Created_at,
-		&userss.Updated_at)
+	).Scan(&userss.Id)
 	if err != nil {
 		panic(err)
 	}
